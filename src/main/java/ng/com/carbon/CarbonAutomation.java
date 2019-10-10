@@ -9,24 +9,51 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class CarbonAutomation {
+    String deviceName;
+    String platformName;
+    String platformVersion;
+    String app; //location of application on your work station
+    AndroidDriver<WebElement> androidDriver;
 
-    public static void main( String[] args){
+    public CarbonAutomation(String deviceName, String platformName, String platformVersion, String app) {
+        this.deviceName = deviceName;
+        this.platformName = platformName;
+        this.platformVersion = platformVersion;
+        this.app = app;
+        connectDevice(deviceName,platformName,platformVersion,app);
+    }
+    public void connectDevice(String deviceName, String platformName, String platformVersion, String app) {
         DesiredCapabilities desiredCapabilities= new DesiredCapabilities();
         desiredCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,"Appium");
-        desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME,"bash");
-        desiredCapabilities.setCapability(MobileCapabilityType.APP,"/Users/bash/desktop/paylater-full-debug-v5.5.3-1909091739.apk");
-        desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME,"Android");
-        desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,"9");
+        desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME,deviceName);
+        desiredCapabilities.setCapability(MobileCapabilityType.APP,app);
+        desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME,platformName);
+        desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,platformVersion);
         desiredCapabilities.setCapability("appPackage","com.lenddo.mobile.paylater.staging");
         desiredCapabilities.setCapability("appActivity","");
         try {
             URL url = new URL("http://127.0.0.1:4723/wd/hub");
-            AndroidDriver<WebElement> androidDriver = new AndroidDriver<WebElement>(url, desiredCapabilities);
+             androidDriver = new AndroidDriver<WebElement>(url, desiredCapabilities);
+             Thread.sleep(3000);
+            System.out.println("device connected successfully");
 
-            androidDriver .quit();
         }catch(MalformedURLException malURL){
             System.out.println(malURL.getMessage());
+        }catch(InterruptedException threadError){
+            System.out.println(threadError.getMessage());
         }
 
     }
+ public void disconnectDevice(){
+        androidDriver.quit();
+ }
+ public String signIn(){
+ return "";
+ }
+ public static void main(String[] args){
+
+ }
+
+
+
 }
