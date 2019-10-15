@@ -24,18 +24,21 @@ public class CarbonAutomation {
     }
     public void connectDevice(String deviceName, String platformName, String platformVersion, String app) {
         DesiredCapabilities desiredCapabilities= new DesiredCapabilities();
-        desiredCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,"Appium");
+        desiredCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,"uiautomator2");
         desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME,deviceName);
         desiredCapabilities.setCapability(MobileCapabilityType.APP,app);
         desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME,platformName);
         desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,platformVersion);
         desiredCapabilities.setCapability("appPackage","com.lenddo.mobile.paylater.staging");
-        desiredCapabilities.setCapability("appActivity","");
+        desiredCapabilities.setCapability("appActivity","com.lenddo.mobile.paylater.home.activity.SplashScreenActivity");
         try {
             URL url = new URL("http://127.0.0.1:4723/wd/hub");
              androidDriver = new AndroidDriver<WebElement>(url, desiredCapabilities);
              Thread.sleep(3000);
             System.out.println("device connected successfully");
+
+            WebElement splashScreenButton=androidDriver.findElementByClassName("android.widget.Button");
+            splashScreenButton.click();
 
         }catch(MalformedURLException malURL){
             System.out.println(malURL.getMessage());
@@ -51,7 +54,7 @@ public class CarbonAutomation {
  return "";
  }
  public static void main(String[] args){
-
+     CarbonAutomation carbonAutomation=new CarbonAutomation("bash","Android","9","/Users/bash/desktop/paylater-full-debug-v5.5.3-1909091739.apk");
  }
 
 
